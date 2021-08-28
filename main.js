@@ -1,40 +1,41 @@
-const result = document.getElementById('result')
-const filter = document.getElementById('filter')
-const listItems = []
+const User = {
+  result: document.getElementById('result'),
+  filter: document.getElementById('filter'),
+  listItems: [],
+  
+  filterData(searchTerm) {
+    User.listItems.forEach(item => item.innerText.toLowerCase().includes(searchTerm.toLowerCase()) ? item.classList.remove('hide'): item.classList.add('hide'))
+  },
 
-getData()
+  createUsersList(results) {
+    User.result.innerHTML = ''
 
-filter.addEventListener('input', (e) => filterData(e.target.value))
+    results.forEach(user => {
+      const li = document.createElement('li')
+      User.listItems.push(li)
+  
+      li.innerHTML = `
+        <img src="${user.picture.large}" alt="${user.name.first}">
+        <div class="user-info">
+          <h4>${user.name.first} ${user.name.last}</h4>
+          <p>${user.location.city}, ${user.location.country}</p>
+        </div>
+      `
+      User.result.appendChild(li)
+    })
+  },
 
-async function getData() {
-  const res = await fetch('https://randomuser.me/api?results=50')
-  const { results } = await res.json()
+  async getData() {
+    const res = await fetch('https://randomuser.me/api?results=50')
+    const { results } = await res.json()
+  
+    User.createUsersList(results)
+  },
 
-  result.innerHTML = ''
-
-  results.forEach(user => {
-    const li = document.createElement('li')
-
-    listItems.push(li)
-
-    li.innerHTML = `
-      <img src="${user.picture.large}" alt="${user.name.first}">
-      <div class="user-info">
-        <h4>${user.name.first} ${user.name.last}</h4>
-        <p>${user.location.city}, ${user.location.country}</p>
-      </div>
-    `
-    
-    result.appendChild(li)
-  })
+  start() {
+    User.filter.addEventListener('input', event => User.filterData(event.target.value))
+    User.getData()
+  }
 }
 
-function filterData(searchTerm) {
-  listItems.forEach(item => {
-    if (item.innerText.toLowerCase().includes(searchTerm.toLowerCase())) {
-      item.classList.remove('hide')
-    } else {
-      item.classList.add('hide')
-    }
-  })
-}
+User.start()

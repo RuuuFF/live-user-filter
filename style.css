@@ -66,6 +66,14 @@ body {
   padding: 20px;
 }
 
+.user-list li:not(:last-of-type) {
+  border-bottom: 1px solid #eee;
+}
+
+.user-list li.hide {
+  display: none;
+}
+
 .user-list img {
   border-radius: 50%;
   object-fit: cover;
@@ -83,12 +91,4 @@ body {
 
 .user-list .user-info p {
   font-size: 12px;
-}
-
-.user-list li:not(:last-of-type) {
-  border-bottom: 1px solid #eee;
-}
-
-.user-list li.hide {
-  display: none;
 }
