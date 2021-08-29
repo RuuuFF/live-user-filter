@@ -52,6 +52,10 @@ body {
   outline: none;
 }
 
+.header input::placeholder {
+  color: #ffffffab;
+}
+
 .user-list {
   background-color: #fff;
   list-style-type: none;
